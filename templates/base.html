@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block head %} {% endblock %}
+    <title>Todo App</title>
+</head>
+<body class="grid place-items-center h-[70vh] justify-center items-center">
+    <section class="text-center">
+         <h1 class="my-2">Todo App</h1>
+        {% for todo in todos %}
+                <div class="p-3 border-4 border-black m-5">
+                    <span class="text-2xl font-bold">{{ todo.id }}</span>
+                    <span class="text-lg my-4">{{ todo.text }}</span>
+                    <span class="text-lg">{{ todo.is_active }}</span>
+                    <div>
+                        <a href="">Выполнено</a>
+                        <a href="/update/{{todo.id}}">Изменить</a>
+                        <a href="">Удалить</a>
+                    </div>
+                </div>
+        {% endfor %}
+    </section>
+</body>
+</html>
