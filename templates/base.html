@@ -9,18 +9,43 @@
     {% block head %} {% endblock %}
     <title>Todo App</title>
 </head>
-<body class="grid place-items-center h-[70vh] justify-center items-center">
+<body class="grid place-items-center h-[86vh] justify-center items-center bg-gray-100">
     <section class="text-center">
-         <h1 class="my-2">Todo App</h1>
+        <h1 class="my-2">Todo App</h1>
+        <form class="py-4 bg-white shadow-md px-8 pt-6 pb-8 mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm
+        rounded-lg flex flex-col gap-4 justify-center items-center max-w-[800px]" action="{{ url_for('add_todos') }}" method="post">
+            <div class="">
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Новая задача</label>
+                <input class="w-[300px] block p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md
+                focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
+                dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text" name="title" placeholder="Введите название задачи"><br>
+            </div>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded
+                            focus:outline-none focus:shadow-outline" type="submit">Добавить</button>
+        </form>
+        {% if todos|length == 0 %}
+            <h1>Нет заметок</h1>
+        {% endif %}
         {% for todo in todos %}
-                <div class="p-3 border-4 border-black m-5">
-                    <span class="text-2xl font-bold">{{ todo.id }}</span>
-                    <span class="text-lg my-4">{{ todo.text }}</span>
-                    <span class="text-lg">{{ todo.is_active }}</span>
+                <div class="p-3 border-2 border-gray-400 m-5 rounded">
+                    <span class="text-lg my-4 inline text-2xl font-semibold leading-none">{{ todo.text }}</span>
                     <div>
-                        <a href="">Выполнено</a>
-                        <a href="/update/{{todo.id}}">Изменить</a>
-                        <a href="">Удалить</a>
+                         {% if todo.is_active == False %}
+                            <span class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Не завершено</span>
+                            <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-red-800"
+                               href="{{ url_for('update_todo', todo_id=todo.id) }}">Закрыть</a>
+                            {% else %}
+                            <span class="inline-block align-baseline font-bold text-sm text-red-500">Завершено</span>
+                            <div class="flex flex-col justify-center gap-4 pt-5">
+                                <a class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+                            font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700
+                            dark:focus:ring-blue-800" href="{{ url_for('update_todo', todo_id=todo.id) }}">Открыть</a>
+                                <a class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+                            font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700
+                            dark:focus:ring-blue-800" href="{{ url_for('delete_todo', todo_id=todo.id) }}">Удалить</a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
         {% endfor %}
